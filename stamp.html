@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Update Track</title>  
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="main.css">
+    </head>
+
+    <body>
+
+        <nav class="navbar">
+                  <div class="navbar-header">
+                    <a>
+                        <img src="wingg.png" class="icon">      
+                    </a>
+                </div>
+                <div class="colapse navbar-colapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <a>
+                            <img class="profile-picture img-fluid" src="rain.jpg">
+                        </a> 
+                    </ul>
+                </div>
+        </nav>
+        
+
+<div class="navigation">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="home.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="mail_1.php">New Mail</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="track.html">Track</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="funds.html">Update Track</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="reports.html">Reports</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="stamp.html">Stamps</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="gpo_post_staff.html">GPO/PostOffice/Staff</a>
+      </li>
+    </ul>
+</div>
+
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1 style="text-align: center;">Sell Stamps</h1>
+            <p style="text-align: center;">Enter stamp Type and Qty</p>
+
+<form method="POST" action="stamp.php">
+
+
+    <div class="form-row">
+            <div class="input-group mb-3 form-group col-md-6">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Stamp Type</label>
+                    </div>
+                    <select name="StampType" class="custom-select" id="inputGroupSelect01">
+                      <option selected>Choose...</option>
+                      <option value="5 Rs.">5 Rs.</option>
+                      <option value="10 Rs.">10 Rs.</option>
+                      <option value="50 Rs.">50 Rs.</option>
+                      <option value="100 Rs.">100 Rs.</option>
+                      <option value="250 Rs.">250 Rs.</option>
+                      <option value="500 Rs.">500 Rs.</option>
+                    </select>
+                  </div> 
+              
+                  <div class="input-group mb-3 form-group col-md-6">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Quantity</label>
+                        </div>
+                    <input type="number" name="Quantity" class="form-control" placeholder="0">
+                  </div>
+    </div>
+
+    
+
+  <button type="submit" name="submit_button" class="btn btn-success">Sell</button>
+</form>
+
+        </div>
+    </header>
+   
+</div>
+
+
+    </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>

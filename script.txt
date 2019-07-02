@@ -1,0 +1,277 @@
+
+CREATE TABLE GPO(
+BranchCode number(4) not null,
+Address varchar2(30),
+City varchar2(10),
+Province varchar2(10),
+BranchPhone number(11),
+BranchHead varchar2(15),
+BranchEmail varchar2(20),
+constraint pk01 primary key (branchCode));
+
+create sequence GPO_seq_1 start with 1000;
+create or replace trigger GPO_tr_1
+before insert on GPO
+for each row
+Begin
+	select GPO_seq_1.NEXTVAL
+	into :new.BranchCode
+	From dual;
+End;
+/
+
+insert into GPO(Address,City,Province,BranchPhone,BranchHead,BranchEmail) values('6th road','Rwp','Punjab',051240860,'Abid Iqbal','gpo@gmail.com');
+insert into GPO(Address,City,Province,BranchPhone,BranchHead,BranchEmail) values('7th road','Rwp','Punjab',051240860,'Faizan khalid','gpo@gmail.com');
+insert into GPO(Address,City,Province,BranchPhone,BranchHead,BranchEmail) values('Chowk Kumharan','Multan','Punjab',051240860,'Shoaib ali','gpo@gmail.com');
+insert into GPO(Address,City,Province,BranchPhone,BranchHead,BranchEmail) values('KalmaChowk','Fatehpur','Punjab',051240860,'zaid ali','gpo@gmail.com');
+
+CREATE TABLE Customer(
+CustID number(4) not null,
+FirstName varchar2(10) not null,
+MiddleName varchar2(10),
+LastName varchar2(10) not null,
+CNIC number(13) not null unique,
+ContactNo number(12),
+Address varchar2(30),
+City varchar2(10),
+Province varchar2(10),
+Gender varchar2(6) not null,
+constraint pk03 primary key (CustID));
+
+create sequence cust_seq start with 1000;
+create or replace trigger cust_tr
+before insert on Customer
+for each row
+Begin
+	select cust_seq.NEXTVAL
+	into :new.custID
+	From dual;
+End;
+/
+
+insert into customer(firstname,middlename,lastname,cnic,contactno,address,city,province,gender) 
+values('Mian','zaid','ali',3220286590313,03357852875,'na 60 a','rwp','punjab','male');
+insert into customer(firstname,middlename,lastname,cnic,contactno,address,city,province,gender) 
+values('Faizan','','Khalid',32202812390313,03352155875,'6th road','rwp','punjab','male');
+insert into customer(firstname,middlename,lastname,cnic,contactno,address,city,province,gender) 
+values('Abid','Iqbal','Khattak',3220123590313,03357852875,'Khattak House','DIK','KPK','male');
+
+CREATE TABLE Parcel(
+MailNo number(10) not null,
+MailType varchar2(30),
+MailService varchar2(30),
+TrackingID number(10) not null,
+Status varchar2(30),
+InsuranceList NUMBER(1,0),
+IssueDate DATE,
+ExpectedDeliverDate DATE,
+DeliveredOn DATE,
+Description varchar2(50),
+BranchCode number(4) not null,
+AgentID number(4) not null,
+ParcelPrice number(10),
+InsurancePrice number(10),
+TotalPrice number(10),
+Origin varchar2(20),
+Destination varchar2(20),
+constraint pk08 primary key (MailNO));
+
+create sequence parcel_seq_1 start with 1;
+create or replace trigger parcel_tr_1
+before insert on Parcel
+for each row
+Begin
+	select parcel_seq_1.NEXTVAL
+	into :new.MailNo
+	From dual;
+End;
+/
+
+create sequence parcel_seq_2 start with 1111;
+create or replace trigger parcel_tr_2
+before insert on Parcel
+for each row
+Begin
+	select parcel_seq_2.NEXTVAL
+	into :new.trackingID
+	From dual;
+End;
+/
+
+insert into parcel(mailtype,mailservice,status,InsuranceList,Issuedate,Expecteddeliverdate,DeliveredOn,Description,BranchCode,AgentID) 
+        values('Letter','Regular','Recived',0,'24-APR-19','24-APR-1','24-APR-19','Its Expensive',1234,4567);
+
+CREATE TABLE Invoice(
+InvoiceID number(15) not null,
+TrackingID number(10) not null,
+CustID number(4) not null,
+RecipentName varchar2(30) not null,
+RecipentAddress varchar2(30),
+RecipentCity varchar2(15),
+RecipentProvince varchar2(15),
+RecipentCNIC number(13) not null unique,
+RecipentPhoneNO number(11),
+constraint pk04 primary key (InvoiceID,CustID),
+constraint fk02 foreign key (CustID) references Customer(CustID),
+constraint fk_02 foreign key (TrackingID) refrences Parcel(TrackingID));
+
+create sequence invoice_seq_1 start with 1;
+create or replace trigger invoice_tr_1
+before insert on Invoice
+for each row
+Begin
+	select Invoice_seq_1.NEXTVAL
+	into :new.InvoiceID
+	From dual;
+End;
+/
+
+
+CREATE TABLE TicketReport(
+TicketID number(10),
+TicketType varchar2(10),
+TotalTickets number(10),
+TicketPrice number(10),
+CurrDate Date,
+constraint pk06 primary key (TicketID));
+
+create sequence ticket_seq_1 start with 1;
+create or replace trigger ticket_tr_1
+before insert on ticketReport
+for each row
+Begin
+	select ticket_seq_1.NEXTVAL
+	into :new.ticketID
+	From dual;
+End;
+/
+
+CREATE TABLE TrackHistory(
+TrackingID number(10) not null,
+CurrentDate DATE,
+CurrentLocation varchar2(10),
+Status varchar2(30));
+
+CREATE TABLE MailReport(
+MailReportID number(10) not null,
+MailType varchar2(10),
+TotalMails number(10),
+AmountCollected number(10),
+IssuedBy number(4) not null,
+constraint pk10 primary key (MailReportID),
+constraint fk10 foreign key (IssuedBy) references PPostStaf(StafID)); 
+
+CREATE TABLE YearlyReport(
+YearlyReportID number(10) not null,
+BranchNo number(4) not null,
+ReportType varchar2(10),
+NoOfCollecions varchar2(10),
+Month varchar2(10),
+AmountCollected number(10),
+AmountReturned number(10),
+NetAmount number(10),
+constraint pk09 primary key (YearlyReportID),
+constraint fk09 foreign key (BranchNo) references PostOffice(BranchCode));
+
+
+
+CREATE TABLE PostStaf(
+StafID number(4) not null,
+FirstName varchar2(10) not null,
+MiddleName varchar2(10),
+LastName varchar2(10) not null,
+CNIC number(13) not null unique,
+FatherName varchar2(30),
+MotherName varchar2(30),
+ContactNo number(12),
+Email varchar2(30),
+Address varchar2(30),
+City varchar2(10),
+Province varchar2(10),
+DateOfBirth DATE,
+BranchCode number(4),
+constraint pk_05 primary key (StafID));
+
+create sequence PostStaf_seq_1 start with 1111;
+create or replace trigger Poststaf_tr_1
+before insert on PostStaf
+for each row
+Begin
+	select PostStaf_seq_1.NEXTVAL
+	into :new.StafID
+	From dual;
+End;
+/
+
+insert into PostStaf(FirstName,MiddleName,LastName,CNIC,FatherName,MotherName,ContactNo,Email,Address,City,Province,DateOfBirth)
+values ('Asif','','Gul',14202012,'Gul Khan','Zianab',314656551,'BB@gmail.com','House#12','Rawalpindi','Punjab','20-APR-89');
+insert into PostStaf(FirstName,MiddleName,LastName,CNIC,FatherName,MotherName,ContactNo,Email,Address,City,Province,DateOfBirth)
+values ('Zubair','','Khan',142029812,'Gul Khan','Ayesha',314126551,'CC@gmail.com','House#11','Peshawar','KPK','20-JUL-91');
+insert into PostStaf(FirstName,MiddleName,LastName,CNIC,FatherName,MotherName,ContactNo,Email,Address,City,Province,DateOfBirth)
+values ('Gul','','Khan',14202912,'M.khan','Zianab',314656231,'BH@gmail.com','House#15','Bannu','KPK','20-APR-89');
+insert into PostStaf(FirstName,MiddleName,LastName,CNIC,FatherName,MotherName,ContactNo,Email,Address,City,Province,DateOfBirth)
+values ('Zubair','','Khan',14229212,'Khan jan','Ayesha',345656551,'CC@gmail.com','House#11','Karachi','Sindh','20-JUL-91');
+
+CREATE TABLE PPostOffice(
+BranchCode number(4) not null,
+BranchName varchar2(20) not null,
+Address varchar2(30),
+City varchar2(10),
+Province varchar2(10),
+GPOCode number(4) not null,
+BranchHead number(4),
+BranchPhone number(11),
+BranchEmail varchar2(20),
+BranchFax number(10),
+DailyCASH number(10),
+constraint pk_02 primary key (branchCode),
+constraint fk_01 foreign key (GPOCode) references GPO(branchCode));
+
+create sequence Ppostoffice_seq_1 start with 1000;
+create or replace trigger PpostOffice_tr_1
+before insert on PpostOffice
+for each row
+Begin
+	select PpostOffice_seq_1.NEXTVAL
+	into :new.BranchCode
+	From dual;
+End;
+/
+
+insert into PpostOffice (BranchHead,BranchName,Address,City,Province,GPOCODE,BranchPhone,BranchEmail,BranchFax,DailyCASH)
+values(1020,'Raja bazar','Raja bazar','Faisalabad','Punjab',1160,349509908,'f@gmail.com',4523456,50000);
+insert into PpostOffice (BranchHead,BranchName,Address,City,Province,GPOCODE,BranchPhone,BranchEmail,BranchFax,DailyCASH)
+values(1024,'Chaman chowk','chaman Chowk','Paharpur','KPK',1160,349509908,'fK@gmail.com',4523256,6000);
+insert into PpostOffice (BranchHead,BranchName,Address,City,Province,GPOCODE,BranchPhone,BranchEmail,BranchFax,DailyCASH)
+values(1026,'Urdu Bazzar','Urdu bazar','Lahore','Punjab',1161,349509908,'Ur@gmail.com',4523456,100000);
+insert into PpostOffice (BranchHead,BranchName,Address,City,Province,GPOCODE,BranchPhone,BranchEmail,BranchFax,DailyCASH)
+values(1027,'kalma Chowk','kalmaChowk','Layyah','Punjab',1161,349509908,'fK@gmail.com',4523256,6000);
+
+CREATE TABLE POffice(
+BranchCode number(4) not null,
+BranchName varchar2(20),
+Address varchar2(30),
+City varchar2(10),
+Province varchar2(10),
+GPOCode number(4) not null,
+BranchHead number(4),
+BranchPhone number(11),
+BranchEmail varchar2(20),
+BranchFax number(10),
+DailyCASH number(10),
+constraint pk_2 primary key (branchCode),
+constraint fk_1 foreign key (GPOCode) references GPO(branchCode));
+
+create sequence POffice_seq_1 start with 1000;
+create or replace trigger POffice_tr_1
+before insert on POffice
+for each row
+Begin
+	select POffice_seq_1.NEXTVAL
+	into :new.BranchCode
+	From dual;
+End;
+/
+
+
+
